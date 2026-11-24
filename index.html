@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حَيّ | HAYY Studio - أزياء الشارع المصرية المعاصرة</title>
+  
+  <!-- Fonts: Cairo & IBM Plex Sans Arabic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons for crisp UI symbols -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-sand text-ink antialiased">
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="container bar-content">
+      <div class="ticker-item">
+        <i class="fa-solid fa-truck-fast"></i>
+        <span>شحن سريع لجميع محافظات مصر (القاهرة والجيزة خلال 24-48 ساعة)</span>
+      </div>
+      <div class="ticker-item highlight">
+        <i class="fa-solid fa-tags"></i>
+        <span>شحن مجاني للطلبات فوق 1,200 ج.م كود: <strong>HAYY10</strong> لخصم 10%</span>
+      </div>
+      <div class="ticker-item desktop-only">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>معاينة المنتجات قبل الاستلام واستبدال سهل خلال 14 يوماً</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <!-- Mobile Menu Toggle -->
+      <button class="icon-btn mobile-only" id="mobileMenuBtn" aria-label="القائمة الرئيسية">
+        <i class="fa-solid fa-bars-staggered"></i>
+      </button>
+
+      <!-- Brand Logo -->
+      <a href="#" class="brand-logo" onclick="app.showStorefront(); return false;">
+        <span class="brand-symbol">حَ</span>
+        <div class="brand-text">
+          <span class="brand-title">حَيّ</span>
+          <span class="brand-sub">HAYY STUDIO • CAIRO</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="nav-links desktop-only" id="mainNav">
+        <a href="#collections" class="nav-link active" onclick="app.filterCategory('all')">كل الكولكشن</a>
+        <a href="#hoodies" class="nav-link" onclick="app.filterCategory('hoodies')">هوديز & سويت شيرت</a>
+        <a href="#tees" class="nav-link" onclick="app.filterCategory('tees')">تيشيرتات أوفرسايز</a>
+        <a href="#pants" class="nav-link" onclick="app.filterCategory('pants')">كارجو & بنطلونات</a>
+        <a href="#about" class="nav-link" onclick="app.scrollToSection('aboutSection')">عن البراند</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <!-- Store Owner Switcher Button (Crucial for Store Owner Requirement) -->
+        <button class="owner-switch-btn" id="ownerSwitchBtn" onclick="app.toggleOwnerMode()" title="التبديل إلى لوحة إدارة طلبات المتجر">
+          <i class="fa-solid fa-store"></i>
+          <span class="switch-label">لوحة التاجر</span>
+          <span class="orders-count-badge" id="pendingOrdersCount">3</span>
+        </button>
+
+        <!-- Search Button -->
+        <button class="icon-btn" id="searchToggleBtn" onclick="app.toggleSearch()" aria-label="بحث في المنتجات">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <!-- Cart Button -->
+        <button class="cart-trigger-btn" id="cartTriggerBtn" onclick="app.toggleCart(true)" aria-label="سلة التسوق">
+          <div class="cart-icon-wrapper">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-badge" id="cartCount">0</span>
+          </div>
+          <span class="cart-text desktop-only">السلة (<span id="cartHeaderTotal">0 ج.م</span>)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Collapsible Search Bar -->
+    <div class="search-drawer" id="searchDrawer">
+      <div class="container search-inner">
+        <div class="search-input-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" placeholder="ابحث باسم الموديل، الخامة (هودي، كارجو، أوفرسايز)..." oninput="app.handleSearch(this.value)">
+          <button class="clear-search-btn" onclick="app.clearSearch()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer-overlay" id="mobileDrawerOverlay" onclick="app.toggleMobileMenu(false)"></div>
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <div class="brand-text">
+        <span class="brand-title">حَيّ</span>
+        <span class="brand-sub">HAYY STUDIO • CAIRO</span>
+      </div>
+      <button class="icon-btn" onclick="app.toggleMobileMenu(false)"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-items">
+      <a href="#" class="mobile-nav-link" onclick="app.filterCategory('all'); app.toggleMobileMenu(false);">🔥 جميع المنتجات</a>
+      <a href="#" class="mobile-nav-link" onclick="app.filterCategory('hoodies'); app.toggleMobileMenu(false);">🧥 هوديز وسويت شيرتات</a>
+      <a href="#" class="mobile-nav-link" onclick="app.filterCategory('tees'); app.toggleMobileMenu(false);">👕 تيشيرتات أوفرسايز بوكسي</a>
+      <a href="#" class="mobile-nav-link" onclick="app.filterCategory('pants'); app.toggleMobileMenu(false);">👖 كارجو وبنطلونات باراشوت</a>
+      <a href="#" class="mobile-nav-link" onclick="app.openSizeGuideModal(); app.toggleMobileMenu(false);">📐 دليل المقاسات الذكي</a>
+      <hr class="drawer-divider">
+      <div class="drawer-footer-actions">
+        <button class="btn btn-outline w-full mb-3" onclick="app.toggleOwnerMode(); app.toggleMobileMenu(false);">
+          <i class="fa-solid fa-store ml-2"></i> الدخول إلى لوحة إدارة الطلبات
+        </button>
+        <p class="text-xs text-muted text-center">صُنع بفخر في مصر 🇪🇬 • قطن مصري 100%</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Storefront View -->
+  <main id="storefrontView" class="main-content">
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-backdrop"></div>
+      <div class="container hero-container">
+        <div class="hero-content">
+          <div class="hero-pill">
+            <span class="live-dot"></span>
+            <span>كولكشن شتاء & ربيع 2026 الحصري</span>
+          </div>
+          <h1 class="hero-heading">
+            ستريت وير مصري معاصر<br>
+            <span class="hero-accent">بأصالة الشارع وجودة عالمية.</span>
+          </h1>
+          <p class="hero-desc">
+            تصاميم أوفرسايز بقصات هندسية دقيقة، مصنوعة من أنقى خامات القطن المصري المغزول 420 جرام. قطع صُممت لتدوم وتعبّر عن هويتك الحقيقية بكل راحة وفخامة.
+          </p>
+          <div class="hero-ctas">
+            <a href="#productsCatalog" class="btn btn-primary" onclick="app.scrollToSection('productsCatalog')">
+              <span>تسوّق الكولكشن الجديد</span>
+              <i class="fa-solid fa-arrow-down"></i>
+            </a>
+            <button class="btn btn-secondary" onclick="app.openSizeGuideModal()">
+              <i class="fa-solid fa-ruler-combined"></i>
+              <span>دليل المقاسات الذكي</span>
+            </button>
+          </div>
+          <!-- Trust Badges -->
+          <div class="hero-features">
+            <div class="feature-item">
+              <i class="fa-solid fa-check"></i>
+              <span>قطن مصري 100% مغسول</span>
+            </div>
+            <div class="feature-item">
+              <i class="fa-solid fa-truck-ramp-box"></i>
+              <span>معاينة عند الاستلام</span>
+            </div>
+            <div class="feature-item">
+              <i class="fa-solid fa-bolt"></i>
+              <span>فودافون كاش & إنستاباي & كاش</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-media-wrapper">
+          <div class="hero-visual-card">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80" alt="HAYY Studio Editorial Fashion" class="hero-img">
+            <div class="hero-card-badge">
+              <span class="badge-title">THE CAIRO DROP</span>
+              <span class="badge-sub">إصدار محدود • Limited Run</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section class="catalog-section" id="productsCatalog">
+      <div class="container">
+        
+        <!-- Catalog Header & Filter Tabs -->
+        <div class="catalog-header">
+          <div>
+            <h2 class="section-title">الموديلات المتاحة للطلب الفوري</h2>
+            <p class="section-subtitle">اختر قطعتك المفضلة وسنصلك أينما كنت في مصر</p>
+          </div>
+
+          <!-- Category Pills -->
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-category="all" onclick="app.filterCategory('all', this)">الكل (<span id="countAll">6</span>)</button>
+            <button class="filter-tab" data-category="hoodies" onclick="app.filterCategory('hoodies', this)">هوديز وسويت شيرت</button>
+            <button class="filter-tab" data-category="tees" onclick="app.filterCategory('tees', this)">تيشيرتات</button>
+            <button class="filter-tab" data-category="pants" onclick="app.filterCategory('pants', this)">بنطلونات وكارجو</button>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="productsGrid">
+          <!-- Dynamically Rendered via app.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Value Props / Egyptian Craftsmanship -->
+    <section class="craft-section" id="aboutSection">
+      <div class="container">
+        <div class="craft-grid">
+          <div class="craft-card">
+            <div class="craft-icon"><i class="fa-solid fa-seedling"></i></div>
+            <h3>قطن مصري 100% نخب أول</h3>
+            <p>نستخدم ألياف قطن مصري طويل التيلة فائق النعومة، معزز بوزن ثقيل لا ينكمش مع الغسيل ولا يفقد رونقه.</p>
+          </div>
+          <div class="craft-card">
+            <div class="craft-icon"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+            <h3>قصات أوفرسايز مدروسة</h3>
+            <p>أبعاد وتفصيل يناسب القوام المصري والعربي العصري، أكتاف منسدلة (Drop-shoulder) وياقات متماسكة لا تترهل.</p>
+          </div>
+          <div class="craft-card">
+            <div class="craft-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+            <h3>طرق دفع مرنة ومريحة</h3>
+            <p>ادفع كاش عند الاستلام، أو بالثواني عبر إنستاباي InstaPay ومحافظ فودافون كاش مع تأكيد فوري وموثوق.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Customer Reviews Carousel / Proof -->
+    <section class="reviews-section">
+      <div class="container">
+        <div class="section-center-head">
+          <span class="sub-label">آراء شباب حَيّ</span>
+          <h2 class="section-title">ماذا يقول عملاؤنا في القاهرة والمحافظات</h2>
+        </div>
+        <div class="reviews-grid">
+          <div class="review-box">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p class="review-text">"الخامة بجد خيالية، الهودي أتقل وأنعم بكتير من براندات أجنبية بتطلب أضعاف السعر. وصلني في الشيخ زايد تاني يوم ومعاه ملصقات شيك."</p>
+            <div class="reviewer-meta">
+              <strong>كريم فهمي</strong>
+              <span>الشيخ زايد، الجيزة • اشترى هودي كروكودايل</span>
+            </div>
+          </div>
+          <div class="review-box">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p class="review-text">"حولت بإنستاباي في ثواني والتأكيد جالي على طول. المقاس مظبوط جداً حسب دليل المقاسات على الموقع، الكارجو قماشته تحفة."</p>
+            <div class="reviewer-meta">
+              <strong>يوسف الألفي</strong>
+              <span>سموحة، الإسكندرية • اشترى بنطلون كارجو تكتيكي</span>
+            </div>
+          </div>
+          <div class="review-box">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p class="review-text">"أحسن تيشيرت بوكسي فيت اشتريته في مصر. الصبغة مظبوطة والياقة مش بتمط بعد الغسيل. طلبت قطعتين تانيين بعد التجربة!"</p>
+            <div class="reviewer-meta">
+              <strong>سيف الدين طارق</strong>
+              <span>مصر الجديدة، القاهرة • اشترى تيشيرت شوارع المعادي</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- STORE OWNER ORDER MANAGEMENT VIEW (واجهة إدارة الطلبات لصاحب المتجر) -->
+  <section id="ownerPortalView" class="owner-portal-view" style="display: none;">
+    <div class="container">
+      
+      <!-- Owner Portal Top Header -->
+      <div class="owner-header">
+        <div class="owner-title-block">
+          <div class="badge-merchant">🏪 بوابة إدارة المتجر والطلبات</div>
+          <h2>إدارة ومتابعة طلبات الزبائن</h2>
+          <p>عرض تفاصيل العميل، العنوان الدقيق، رقم الموبايل، وطريقة الدفع لتجهيز الشحنات وطباعة البوليصات</p>
+          <div class="firebase-sync-badge" id="firebaseSyncBadge">
+            <span class="sync-dot"></span>
+            <span id="firebaseSyncText">جاري الاتصال بقاعدة بيانات فايربيس السحابية...</span>
+          </div>
+        </div>
+        <div class="owner-actions">
+          <button class="btn btn-outline btn-sm" onclick="app.showStorefront()">
+            <i class="fa-solid fa-arrow-right"></i>
+            <span>العودة لصفحة المتجر</span>
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="app.refreshOwnerOrders()">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <span>تحديث الطلبات</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Cards -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon blue"><i class="fa-solid fa-receipt"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">إجمالي الطلبات</span>
+            <h3 class="metric-value" id="metricTotalOrders">0</h3>
+            <span class="metric-sub">طلب مسجل</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon green"><i class="fa-solid fa-money-bill-wave"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">إجمالي المبيعات</span>
+            <h3 class="metric-value" id="metricTotalRevenue">0 ج.م</h3>
+            <span class="metric-sub">قيمة الطلبات الإجمالية</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon orange"><i class="fa-solid fa-clock"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">بانتظار التأكيد / التحويل</span>
+            <h3 class="metric-value" id="metricPendingCount">0</h3>
+            <span class="metric-sub">تحتاج مراجعة أو شحن</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon purple"><i class="fa-solid fa-truck"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">قيد التوصيل</span>
+            <h3 class="metric-value" id="metricShippingCount">0</h3>
+            <span class="metric-sub">مع مندوب الشحن</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orders Filter & Search Toolbar -->
+      <div class="owner-toolbar">
+        <div class="search-field">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="ownerSearchInput" placeholder="بحث برقم الطلب، اسم العميل، أو رقم الهاتف..." oninput="app.filterOwnerOrders()">
+        </div>
+        
+        <div class="filter-controls">
+          <select id="ownerStatusFilter" onchange="app.filterOwnerOrders()" class="custom-select">
+            <option value="all">كل الحالات</option>
+            <option value="pending">بانتظار التأكيد (Pending)</option>
+            <option value="confirmed">تم التأكيد / مراجعة الدفع (Confirmed)</option>
+            <option value="shipped">قيد الشحن مع المندوب (Shipped)</option>
+            <option value="delivered">تم التسليم بنجاح (Delivered)</option>
+            <option value="cancelled">ملغي (Cancelled)</option>
+          </select>
+
+          <select id="ownerPaymentFilter" onchange="app.filterOwnerOrders()" class="custom-select">
+            <option value="all">كل طرق الدفع</option>
+            <option value="cod">كاش عند الاستلام (COD)</option>
+            <option value="vodafone">فودافون كاش (Vodafone Cash)</option>
+            <option value="instapay">إنستاباي (InstaPay)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Orders List Container -->
+      <div class="orders-table-wrapper">
+        <div class="table-responsive">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>رقم الطلب</th>
+                <th>اسم العميل</th>
+                <th>رقم الهاتف</th>
+                <th>المحافظة والمنطقة</th>
+                <th>طريقة الدفع</th>
+                <th>الإجمالي</th>
+                <th>حالة الطلب</th>
+                <th>إجراءات سريعة</th>
+              </tr>
+            </thead>
+            <tbody id="ownerOrdersTableBody">
+              <!-- Rendered via app.js -->
+            </tbody>
+          </table>
+        </div>
+        <div id="noOrdersState" class="empty-state" style="display: none;">
+          <i class="fa-solid fa-box-open empty-icon"></i>
+          <h3>لا توجد طلبات تطابق معايير البحث</h3>
+          <p>جرّب تغيير فلاتر البحث أو إنشاء طلب تجريبي من واجهة المتجر</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CART SLIDE-OUT DRAWER -->
+  <div class="cart-overlay" id="cartOverlay" onclick="app.toggleCart(false)"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <div class="cart-drawer-title">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <h3>حقيبة التسوق</h3>
+        <span class="items-count-tag" id="drawerItemsCount">0 قطع</span>
+      </div>
+      <button class="icon-btn" onclick="app.toggleCart(false)"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Free Shipping Progress Tracker -->
+    <div class="shipping-progress-box">
+      <div class="shipping-progress-text" id="shippingProgressText">
+        أضف منتجات بقيمة <strong>450 ج.م</strong> للحصول على <strong>شحن مجاني</strong>! 🚚
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="shippingProgressBar" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Cart Items Scroll Area -->
+    <div class="cart-items-list" id="cartItemsList">
+      <!-- Items dynamically populated -->
+    </div>
+
+    <!-- Empty Cart State -->
+    <div class="cart-empty-state" id="cartEmptyState" style="display: none;">
+      <i class="fa-solid fa-cart-arrow-down"></i>
+      <h4>حقيبة التسوق فارغة</h4>
+      <p>تصفح أحدث الموديلات واختر قطعتك المفضلة الآن</p>
+      <button class="btn btn-primary btn-sm" onclick="app.toggleCart(false); app.scrollToSection('productsCatalog')">
+        تصفح الكولكشن
+      </button>
+    </div>
+
+    <!-- Cart Footer & Summary -->
+    <div class="cart-drawer-footer" id="cartFooter">
+      <!-- Promo Code Section -->
+      <div class="promo-box">
+        <div class="promo-input-group">
+          <input type="text" id="promoInput" placeholder="كود الخصم (جرب: HAYY10)">
+          <button class="btn-apply-promo" onclick="app.applyPromoCode()">تطبيق</button>
+        </div>
+        <div class="promo-feedback" id="promoFeedback"></div>
+      </div>
+
+      <!-- Subtotal and Details -->
+      <div class="cart-breakdown">
+        <div class="breakdown-row">
+          <span>المجموع الفرعي:</span>
+          <strong id="cartSubtotal">0 ج.م</strong>
+        </div>
+        <div class="breakdown-row discount-row" id="cartDiscountRow" style="display: none;">
+          <span>الخصم المطبق:</span>
+          <strong id="cartDiscountVal">-0 ج.م</strong>
+        </div>
+        <div class="breakdown-row">
+          <span>الشحن المقدر:</span>
+          <span class="text-muted" id="cartShippingPreview">يُحسب في الخطوة التالية</span>
+        </div>
+        <div class="breakdown-row total-row">
+          <span>الإجمالي النهائي:</span>
+          <strong id="cartTotalSum">0 ج.م</strong>
+        </div>
+      </div>
+
+      <!-- Checkout CTA -->
+      <button class="btn btn-primary w-full btn-lg checkout-btn" onclick="app.openCheckoutModal()">
+        <span>متابعة إتمام الطلب</span>
+        <i class="fa-solid fa-lock"></i>
+      </button>
+      <p class="cart-guarantee"><i class="fa-solid fa-shield-check"></i> معاينة الطلب قبل الدفع والاستلام</p>
+    </div>
+  </aside>
+
+  <!-- CHECKOUT MODAL (Complete Egyptian Form & Payment Flow) -->
+  <div class="modal-backdrop" id="checkoutModalBackdrop">
+    <div class="modal-dialog checkout-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="step-indicator">خطوة أخيرة لتأكيد طلبك</span>
+          <h3>إتمام الطلب وبيانات الشحن</h3>
+        </div>
+        <button class="icon-btn" onclick="app.closeCheckoutModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body checkout-modal-grid">
+        
+        <!-- Column 1: Customer & Address Form -->
+        <div class="checkout-form-col">
+          <form id="checkoutForm" onsubmit="app.handleOrderSubmit(event)" novalidate>
+            
+            <!-- Customer Personal Info -->
+            <div class="form-section-card">
+              <div class="card-section-title">
+                <i class="fa-solid fa-user-tag"></i>
+                <h4>بيانات المشتري الشخصية</h4>
+              </div>
+
+              <!-- Full Name -->
+              <div class="form-group">
+                <label for="custName" class="form-label">الاسم بالكامل (ثنائي أو ثلاثي) <span class="required">*</span></label>
+                <div class="input-with-icon">
+                  <i class="fa-regular fa-user"></i>
+                  <input type="text" id="custName" required placeholder="مثال: يوسف أحمد عبد الرحمن" class="form-control" onblur="app.validateName()">
+                </div>
+                <div class="field-error" id="nameError">يرجى كتابة الاسم بالكامل للتسليم</div>
+              </div>
+
+              <!-- Primary Egyptian Mobile Phone -->
+              <div class="form-group">
+                <label for="custPhone" class="form-label">
+                  رقم الهاتف المحمول (للتواصل والشحن) <span class="required">*</span>
+                </label>
+                <div class="phone-input-wrap">
+                  <span class="country-prefix">🇪🇬 +20</span>
+                  <input type="tel" id="custPhone" required maxlength="11" placeholder="01012345678" class="form-control phone-control" oninput="app.handlePhoneInput(this)">
+                  <!-- Egyptian Carrier Live Badge -->
+                  <span class="carrier-badge" id="carrierBadge" style="display: none;"></span>
+                </div>
+                <div class="field-helper">يجب أن يبدأ بـ 010 أو 011 أو 012 أو 015 ويتكون من 11 رقماً</div>
+                <div class="field-error" id="phoneError">يرجى إدخال رقم مصري صحيح مكون من 11 رقماً</div>
+              </div>
+
+              <!-- Alternative Phone (Optional) -->
+              <div class="form-group">
+                <label for="custAltPhone" class="form-label">رقم هاتف إضافي (بديل للطوارئ - اختياري)</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-phone-volume"></i>
+                  <input type="tel" id="custAltPhone" maxlength="11" placeholder="مثال: رقم العمل أو أحد أفراد الأسرة" class="form-control">
+                </div>
+              </div>
+            </div>
+
+            <!-- Detailed Egyptian Shipping Address -->
+            <div class="form-section-card">
+              <div class="card-section-title">
+                <i class="fa-solid fa-location-dot"></i>
+                <h4>عنوان التوصيل في مصر بالتفصيل</h4>
+              </div>
+
+              <!-- Governorate Selection -->
+              <div class="form-group">
+                <label for="custGovernorate" class="form-label">المحافظة <span class="required">*</span></label>
+                <select id="custGovernorate" required class="form-control custom-select-styled" onchange="app.handleGovernorateChange(this.value)">
+                  <option value="" disabled selected>اختر محافظتك من القائمة...</option>
+                  <optgroup label="القاهرة الكبرى (شحن 50 ج.م)">
+                    <option value="Cairo" data-fee="50">القاهرة (50 ج.م)</option>
+                    <option value="Giza" data-fee="50">الجيزة (50 ج.م)</option>
+                    <option value="Qalyubia" data-fee="50">القليوبية (50 ج.م)</option>
+                  </optgroup>
+                  <optgroup label="الإسكندرية والقناة (شحن 60 ج.م)">
+                    <option value="Alexandria" data-fee="60">الإسكندرية (60 ج.م)</option>
+                    <option value="PortSaid" data-fee="60">بورسعيد (60 ج.م)</option>
+                    <option value="Suez" data-fee="60">السويس (60 ج.م)</option>
+                    <option value="Ismailia" data-fee="60">الإسماعيلية (60 ج.م)</option>
+                  </optgroup>
+                  <optgroup label="محافظات الوجه البحري والدلتا (شحن 60 ج.م)">
+                    <option value="Dakahlia" data-fee="60">الدقهلية (المنصورة) (60 ج.م)</option>
+                    <option value="Sharqia" data-fee="60">الشرقية (الزقازيق / العاشر) (60 ج.م)</option>
+                    <option value="Gharbia" data-fee="60">الغربية (طنطا / المحلة) (60 ج.م)</option>
+                    <option value="Monufia" data-fee="60">المنوفية (شبين الكوم) (60 ج.م)</option>
+                    <option value="Beheira" data-fee="60">البحيرة (دمنهور) (60 ج.م)</option>
+                    <option value="KafrElSheikh" data-fee="60">كفر الشيخ (60 ج.م)</option>
+                    <option value="Damietta" data-fee="60">دمياط (60 ج.م)</option>
+                    <option value="Matrouh" data-fee="65">مطروح والساحل الشمالي (65 ج.م)</option>
+                  </optgroup>
+                  <optgroup label="محافظات الصعيد والوجه القبلي (شحن 75 ج.م)">
+                    <option value="Fayoum" data-fee="70">الفيوم (70 ج.م)</option>
+                    <option value="BeniSuef" data-fee="70">بني سويف (70 ج.م)</option>
+                    <option value="Minya" data-fee="75">المنيا (75 ج.م)</option>
+                    <option value="Asyut" data-fee="75">أسيوط (75 ج.م)</option>
+                    <option value="Sohag" data-fee="75">سوهاج (75 ج.م)</option>
+                    <option value="Qena" data-fee="75">قنا (75 ج.م)</option>
+                    <option value="Luxor" data-fee="80">الأقصر (80 ج.م)</option>
+                    <option value="Aswan" data-fee="80">أسوان (80 ج.م)</option>
+                    <option value="RedSea" data-fee="85">البحر الأحمر (الغردقة) (85 ج.م)</option>
+                  </optgroup>
+                </select>
+                <div class="field-error" id="govError">يرجى اختيار المحافظة لحساب تكلفة الشحن</div>
+              </div>
+
+              <!-- City / District / Area -->
+              <div class="form-group">
+                <label for="custCity" class="form-label">المدينة أو الحي / المنطقة <span class="required">*</span></label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-tree-city"></i>
+                  <input type="text" id="custCity" required placeholder="مثال: التجمع الخامس، المعادي، الشيخ زايد، سموحة..." class="form-control">
+                </div>
+                <div class="field-error" id="cityError">يرجى تحديد المدينة أو المنطقة</div>
+              </div>
+
+              <!-- Street Name -->
+              <div class="form-group">
+                <label for="custStreet" class="form-label">اسم الشارع <span class="required">*</span></label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-road"></i>
+                  <input type="text" id="custStreet" required placeholder="مثال: شارع التسعين الجنوبي، شارع سوريا..." class="form-control">
+                </div>
+                <div class="field-error" id="streetError">يرجى إدخال اسم الشارع</div>
+              </div>
+
+              <!-- Building, Floor, Apartment -->
+              <div class="form-group">
+                <label for="custBuilding" class="form-label">رقم العمارة، الدور، ورقم الشقة <span class="required">*</span></label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-building"></i>
+                  <input type="text" id="custBuilding" required placeholder="مثال: عمارة 42، الدور الثالث، شقة 7" class="form-control">
+                </div>
+                <div class="field-error" id="buildingError">يرجى توضيح رقم العمارة والدور والشقة</div>
+              </div>
+
+              <!-- Delivery Notes / Landmarks -->
+              <div class="form-group">
+                <label for="custNotes" class="form-label">علامة مميزة أو ملاحظات لمندوب الشحن (اختياري)</label>
+                <textarea id="custNotes" rows="2" placeholder="مثال: بجوار صيدلية العزبي، يرجى الاتصال قبل الوصول بـ 30 دقيقة..." class="form-control"></textarea>
+              </div>
+
+            </div>
+
+            <!-- PAYMENT METHODS SECTION -->
+            <div class="form-section-card">
+              <div class="card-section-title">
+                <i class="fa-solid fa-credit-card"></i>
+                <h4>طريقة الدفع المناسبة لك</h4>
+              </div>
+
+              <div class="payment-options-grid">
+                
+                <!-- 1. Cash on Delivery (COD) -->
+                <label class="payment-method-card selected" id="methodCodCard">
+                  <input type="radio" name="paymentMethod" value="cod" checked onchange="app.selectPaymentMethod('cod')">
+                  <div class="method-header">
+                    <div class="method-icon-title">
+                      <i class="fa-solid fa-hand-holding-dollar payment-icon cod-icon"></i>
+                      <div class="method-name">الدفع عند الاستلام (COD)</div>
+                    </div>
+                    <span class="method-badge">نقداً للمندوب</span>
+                  </div>
+                  <p class="method-desc">ادفع كاش للمندوب بعد استلام ومعاينة منتجاتك عند باب المنزل.</p>
+                </label>
+
+                <!-- 2. Vodafone Cash -->
+                <label class="payment-method-card" id="methodVodafoneCard">
+                  <input type="radio" name="paymentMethod" value="vodafone" onchange="app.selectPaymentMethod('vodafone')">
+                  <div class="method-header">
+                    <div class="method-icon-title">
+                      <i class="fa-solid fa-mobile-screen-button payment-icon vc-icon"></i>
+                      <div class="method-name">فودافون كاش ومحافظ الهاتف</div>
+                    </div>
+                    <span class="method-badge vc-tag">محفظة إلكترونية</span>
+                  </div>
+                  <p class="method-desc">تحويل فوري إلى رقم محفظة المتجر مع تأكيد سريع.</p>
+                </label>
+
+                <!-- 3. InstaPay Egypt -->
+                <label class="payment-method-card" id="methodInstapayCard">
+                  <input type="radio" name="paymentMethod" value="instapay" onchange="app.selectPaymentMethod('instapay')">
+                  <div class="method-header">
+                    <div class="method-icon-title">
+                      <i class="fa-solid fa-bolt payment-icon ip-icon"></i>
+                      <div class="method-name">إنستاباي (InstaPay Egypt)</div>
+                    </div>
+                    <span class="method-badge ip-tag">تحويل بنكي لحظي</span>
+                  </div>
+                  <p class="method-desc">تحويل لحظي مباشر عبر عنوان الدفع IPA أو كود QR بدون رسوم.</p>
+                </label>
+
+              </div>
+
+              <!-- DYNAMIC PAYMENT DETAILS BOXES -->
+
+              <!-- COD Details Box -->
+              <div class="payment-details-box" id="codDetailsBox">
+                <div class="alert-notice">
+                  <i class="fa-solid fa-circle-info"></i>
+                  <div>
+                    <strong>جاهز للدفع عند الاستلام!</strong>
+                    <p class="mb-0 text-sm">يرجى تجهيز المبلغ المطلوب نقداً (<span class="font-bold text-accent" id="codDueAmount">0 ج.م</span>) عند وصول مندوب شركة الشحن.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Vodafone Cash Transfer Details Box -->
+              <div class="payment-details-box" id="vodafoneDetailsBox" style="display: none;">
+                <div class="wallet-transfer-card">
+                  <div class="transfer-header">
+                    <span class="transfer-title">بيانات محفظة فودافون كاش المعتمدة للمتجر:</span>
+                    <span class="transfer-due-badge">المبلغ المطلوب: <strong id="vodaDueAmount">0 ج.م</strong></span>
+                  </div>
+                  
+                  <div class="copy-field-wrap">
+                    <div class="copy-value-box">
+                      <span class="copy-label">رقم محفظة التاجر:</span>
+                      <span class="copy-number" id="vodaNumber">01098765432</span>
+                    </div>
+                    <button type="button" class="btn-copy" onclick="app.copyToClipboard('01098765432', this)">
+                      <i class="fa-regular fa-copy"></i>
+                      <span>نسخ الرقم</span>
+                    </button>
+                  </div>
+
+                  <div class="transfer-steps">
+                    <h5>خطوات تأكيد التحويل:</h5>
+                    <ol>
+                      <li>اطلب <strong>*9*7#</strong> أو استخدم تطبيق "أنا فودافون" لتحويل المبلغ المحدد.</li>
+                      <li>حوّل المبلغ المطلوب بدقة (<strong id="vodaStepsAmount">0 ج.م</strong>) إلى الرقم الموضح أعلاه.</li>
+                      <li>اكتب رقم محفظتك التي قمت بالتحويل منها وارفق سكرين شوت إشعار التحويل لتسريع التأكيد.</li>
+                    </ol>
+                  </div>
+
+                  <div class="form-group mt-3">
+                    <label class="form-label">رقم المحفظة التي قمت بالتحويل منها (11 رقم) <span class="required">*</span></label>
+                    <input type="tel" id="vodaSenderPhone" maxlength="11" placeholder="مثال: 01012345678" class="form-control">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">صورة إيصال / سكرين شوت التحويل (اختياري ولكنه يسرّع شحن طلبك):</label>
+                    <div class="receipt-upload-box" id="vodaReceiptDrop">
+                      <input type="file" id="vodaReceiptInput" accept="image/*" onchange="app.handleReceiptUpload(this, 'vodaReceiptPreview')">
+                      <div class="upload-placeholder" id="vodaUploadPlaceholder">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>انقر هنا لرفع لقطة الشاشة (سكرين شوت)</span>
+                        <small>PNG, JPG حتى 5 ميجابايت</small>
+                      </div>
+                      <div class="receipt-preview-wrap" id="vodaReceiptPreview" style="display: none;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- InstaPay Transfer Details Box -->
+              <div class="payment-details-box" id="instapayDetailsBox" style="display: none;">
+                <div class="instapay-transfer-card">
+                  <div class="transfer-header">
+                    <span class="transfer-title">بيانات الدفع عبر إنستاباي (InstaPay):</span>
+                    <span class="transfer-due-badge ip-bg">المبلغ المطلوب: <strong id="instaDueAmount">0 ج.م</strong></span>
+                  </div>
+
+                  <div class="copy-field-wrap">
+                    <div class="copy-value-box">
+                      <span class="copy-label">عنوان الدفع اللحظي (IPA):</span>
+                      <span class="copy-number ltr" id="instaHandle">hayystudio@instapay</span>
+                    </div>
+                    <button type="button" class="btn-copy" onclick="app.copyToClipboard('hayystudio@instapay', this)">
+                      <i class="fa-regular fa-copy"></i>
+                      <span>نسخ العنوان</span>
+                    </button>
+                  </div>
+
+                  <!-- QR Code Simulation -->
+                  <div class="instapay-qr-wrap">
+                    <div class="qr-box">
+                      <div class="fake-qr-graphic">
+                        <i class="fa-solid fa-qrcode"></i>
+                      </div>
+                      <span class="qr-caption">امسح الكود عبر تطبيق إنستاباي</span>
+                    </div>
+                    <div class="instapay-guide">
+                      <h5>طريقة التحويل في دقيقة:</h5>
+                      <ul>
+                        <li>افتح تطبيق <strong>InstaPay</strong> على هاتفك.</li>
+                        <li>اختر <strong>تحويل إلى عنوان دفع لحظي (IPA)</strong>.</li>
+                        <li>ضع العنوان <code>hayystudio@instapay</code> والمبلغ المطلوب بدقة.</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="form-group mt-3">
+                    <label class="form-label">اسمك في تطبيق إنستاباي أو الرقم المرجعي للمعاملة <span class="required">*</span></label>
+                    <input type="text" id="instaAccountRef" placeholder="مثال: يوسف أحمد أو رقم المعاملة البنكية" class="form-control">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">إرفاق سكرين شوت إيصال إنستاباي الناجح:</label>
+                    <div class="receipt-upload-box" id="instaReceiptDrop">
+                      <input type="file" id="instaReceiptInput" accept="image/*" onchange="app.handleReceiptUpload(this, 'instaReceiptPreview')">
+                      <div class="upload-placeholder" id="instaUploadPlaceholder">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>انقر هنا لرفع إيصال إنستاباي</span>
+                        <small>صورة تأكيد التحويل من التطبيق</small>
+                      </div>
+                      <div class="receipt-preview-wrap" id="instaReceiptPreview" style="display: none;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Submit Order Button -->
+            <button type="submit" class="btn btn-primary btn-lg w-full submit-order-btn" id="submitOrderBtn">
+              <span id="btnSubmitText">تأكيد وتسجيل الطلب الآن ⚡</span>
+              <i class="fa-solid fa-check-circle"></i>
+            </button>
+            <div class="security-note">
+              <i class="fa-solid fa-lock"></i>
+              <span>بياناتك الشخصية وعنوانك مشفرة ومحمية تماماً ولا تستخدم إلا لتوصيل طلبك</span>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Column 2: Order Summary Sticky Card -->
+        <div class="checkout-summary-col">
+          <div class="summary-card-sticky">
+            <h4 class="summary-card-title">ملخص الطلب</h4>
+            
+            <!-- Items in checkout -->
+            <div class="summary-items-list" id="checkoutSummaryItems">
+              <!-- Rendered dynamically -->
+            </div>
+
+            <div class="summary-calculations">
+              <div class="calc-row">
+                <span>المجموع الفرعي:</span>
+                <span id="checkoutSubtotal">0 ج.م</span>
+              </div>
+              <div class="calc-row discount-text" id="checkoutDiscountRow" style="display: none;">
+                <span>كوبون الخصم:</span>
+                <span id="checkoutDiscountVal">-0 ج.م</span>
+              </div>
+              <div class="calc-row">
+                <span>مصاريف الشحن:</span>
+                <span id="checkoutShippingFee">اختر المحافظة</span>
+              </div>
+              <hr class="summary-hr">
+              <div class="calc-row final-total-row">
+                <span>الإجمالي المطلوب:</span>
+                <span class="total-number" id="checkoutFinalTotal">0 ج.م</span>
+              </div>
+            </div>
+
+            <!-- Reassurance Perks -->
+            <div class="checkout-perks">
+              <div class="perk-row">
+                <i class="fa-solid fa-box-check text-green"></i>
+                <span>حق معاينة المقاس والخامة مع المندوب</span>
+              </div>
+              <div class="perk-row">
+                <i class="fa-solid fa-rotate-left text-blue"></i>
+                <span>استبدال مجاني للمقاسات خلال 14 يوماً</span>
+              </div>
+              <div class="perk-row">
+                <i class="fa-solid fa-shield-heart text-accent"></i>
+                <span>قطن مصري 100% مغسول وفاخر</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDER SUCCESS CELEBRATION MODAL -->
+  <div class="modal-backdrop" id="orderSuccessModalBackdrop">
+    <div class="modal-dialog success-dialog">
+      <div class="success-header">
+        <div class="success-icon-badge">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h2>تم استلام طلبك بنجاح!</h2>
+        <p class="order-num-tag">رقم الطلب: <strong id="successOrderId">#HY-24891</strong></p>
+      </div>
+
+      <div class="success-body">
+        <div class="success-alert">
+          <i class="fa-solid fa-heart"></i>
+          <div>
+            <strong>شكراً لاختيارك «حَيّ Studio»!</strong>
+            <p>سيقوم فريقنا بتجهيز شحنتك فوراً. تم حفظ طلبك وبياناتك بعناية، وسيتصل بك مندوب الشحن لتنسيق التسليم.</p>
+          </div>
+        </div>
+
+        <div class="success-details-card">
+          <h4>تفاصيل الشحن والتواصل:</h4>
+          <div class="success-meta-grid">
+            <div class="meta-field">
+              <span class="meta-label">الاسم:</span>
+              <strong id="successCustomerName">يوسف أحمد</strong>
+            </div>
+            <div class="meta-field">
+              <span class="meta-label">رقم الهاتف:</span>
+              <strong id="successCustomerPhone" class="ltr">01012345678</strong>
+            </div>
+            <div class="meta-field full-span">
+              <span class="meta-label">عنوان التوصيل:</span>
+              <span id="successCustomerAddress">القاهرة - التجمع الخامس - شارع التسعين</span>
+            </div>
+            <div class="meta-field">
+              <span class="meta-label">طريقة الدفع:</span>
+              <strong id="successPaymentMethod">فودافون كاش</strong>
+            </div>
+            <div class="meta-field">
+              <span class="meta-label">المبلغ المطلوب:</span>
+              <strong id="successOrderTotal" class="text-accent">950 ج.م</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="success-actions">
+          <a href="#" id="successWhatsappBtn" target="_blank" class="btn btn-whatsapp w-full">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>متابعة الطلب والتأكيد الفوري عبر واتساب</span>
+          </a>
+          <button class="btn btn-outline w-full" onclick="app.closeSuccessModal(); app.showStorefront();">
+            <span>متابعة التسوق في المتجر</span>
+          </button>
+          <button class="btn btn-secondary w-full" onclick="app.closeSuccessModal(); app.showOwnerPortal();">
+            <i class="fa-solid fa-store ml-2"></i>
+            <span>عرض هذا الطلب في لوحة تحكم التاجر ⚙️</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCT QUICK VIEW / DETAILS MODAL -->
+  <div class="modal-backdrop" id="productModalBackdrop">
+    <div class="modal-dialog product-modal-dialog">
+      <button class="icon-btn modal-close-btn" onclick="app.closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="product-modal-grid">
+        <!-- Product Images -->
+        <div class="modal-image-col">
+          <div class="main-modal-img-wrap">
+            <img id="modalProductImg" src="" alt="Product">
+            <span class="modal-tag" id="modalProductTag">الأكثر طلباً</span>
+          </div>
+        </div>
+
+        <!-- Product Purchase Controls -->
+        <div class="modal-info-col">
+          <div class="product-brand-line">HAYY STUDIO • EGYPTIAN STREETWEAR</div>
+          <h2 id="modalProductTitle" class="modal-product-title">هودي كروكودايل أوفرسايز</h2>
+          
+          <div class="price-rating-row">
+            <div class="modal-pricing">
+              <span class="current-price" id="modalProductPrice">950 ج.م</span>
+              <span class="old-price" id="modalProductOldPrice">1,200 ج.م</span>
+              <span class="save-pill" id="modalProductDiscount">وفر 250 ج.م</span>
+            </div>
+            <div class="product-rating">
+              <span class="stars">⭐⭐⭐⭐⭐</span>
+              <span class="rating-count">(4.9 • 38 تقييم موثق)</span>
+            </div>
+          </div>
+
+          <p class="modal-product-desc" id="modalProductDesc">
+            قطن ميلتون مصري فائق النعومة 420 جرام، قصة أوفرسايز مريحة مع أكتاف منسدلة وتطريز حريري بارز عالي الدقة.
+          </p>
+
+          <hr class="modal-divider">
+
+          <!-- Color Swatches -->
+          <div class="option-group">
+            <label class="option-label">اللون المختار: <strong id="modalSelectedColorName">بيج رملي</strong></label>
+            <div class="color-swatches" id="modalColorSwatches">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Size Selector & Size Guide Link -->
+          <div class="option-group">
+            <div class="size-label-row">
+              <label class="option-label">اختر المقاس: <strong id="modalSelectedSizeName">L</strong></label>
+              <button type="button" class="btn-text-guide" onclick="app.openSizeGuideModal()">
+                <i class="fa-solid fa-ruler"></i> دليل المقاسات
+              </button>
+            </div>
+            <div class="size-pills-list" id="modalSizePills">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Quantity & Add to Cart -->
+          <div class="modal-cta-row">
+            <div class="qty-control">
+              <button class="qty-btn" onclick="app.adjustModalQty(-1)"><i class="fa-solid fa-minus"></i></button>
+              <span class="qty-value" id="modalQtyVal">1</span>
+              <button class="qty-btn" onclick="app.adjustModalQty(1)"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <button class="btn btn-primary btn-lg flex-1" id="modalAddToCartBtn" onclick="app.addProductFromModal()">
+              <i class="fa-solid fa-bag-shopping ml-2"></i>
+              <span>إضافة إلى السلة</span>
+            </button>
+          </div>
+
+          <!-- Stock & Guarantee Notice -->
+          <div class="modal-badges">
+            <span class="badge-stock"><i class="fa-solid fa-fire text-accent"></i> متبقي 4 قطع فقط بالمخزن</span>
+            <span class="badge-ship"><i class="fa-solid fa-truck"></i> شحن سريع خلال 24-48 ساعة</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE SIZE GUIDE MODAL (دليل المقاسات الذكي) -->
+  <div class="modal-backdrop" id="sizeGuideModalBackdrop">
+    <div class="modal-dialog size-guide-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i class="fa-solid fa-ruler-combined text-accent"></i>
+          <h3>دليل المقاسات الذكي • HAYY STUDIO</h3>
+        </div>
+        <button class="icon-btn" onclick="app.closeSizeGuideModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        
+        <!-- Smart Size Calculator -->
+        <div class="size-calculator-box">
+          <h4><i class="fa-solid fa-wand-magic-sparkles text-accent"></i> حاسبة المقاس التقديري (بالطول والوزن)</h4>
+          <p class="text-sm text-muted">أدخل وزنك وطولك لنقترح لك المقاس الأمثل لقصات الأوفرسايز الخاصة بنا:</p>
+          <div class="calc-inputs-row">
+            <div class="calc-field">
+              <label>الوزن التقريبي (كجم):</label>
+              <input type="number" id="calcWeight" placeholder="مثال: 78" value="75" oninput="app.calculateRecommendedSize()">
+            </div>
+            <div class="calc-field">
+              <label>الطول (سم):</label>
+              <input type="number" id="calcHeight" placeholder="مثال: 178" value="175" oninput="app.calculateRecommendedSize()">
+            </div>
+          </div>
+          <div class="calc-recommendation" id="calcResultBox">
+            <span class="rec-label">المقاس المقترح لك:</span>
+            <span class="rec-size" id="recSizeBadge">L (أوفرسايز مريح)</span>
+          </div>
+        </div>
+
+        <!-- Size Chart Table -->
+        <div class="size-table-wrap">
+          <h4>جدول أبعاد ومقاسات الموديلات (بالسنتيمتر):</h4>
+          <table class="size-table">
+            <thead>
+              <tr>
+                <th>المقاس</th>
+                <th>عرض الصدر (Chest)</th>
+                <th>الطول الكلي (Length)</th>
+                <th>طول الكم (Sleeve)</th>
+                <th>الوزن المقترح</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>S</strong></td>
+                <td>58 سم</td>
+                <td>70 سم</td>
+                <td>56 سم</td>
+                <td>55 - 68 كجم</td>
+              </tr>
+              <tr>
+                <td><strong>M</strong></td>
+                <td>61 سم</td>
+                <td>73 سم</td>
+                <td>58 سم</td>
+                <td>68 - 78 كجم</td>
+              </tr>
+              <tr>
+                <td><strong>L</strong></td>
+                <td>64 سم</td>
+                <td>76 سم</td>
+                <td>60 سم</td>
+                <td>78 - 90 كجم</td>
+              </tr>
+              <tr>
+                <td><strong>XL</strong></td>
+                <td>67 سم</td>
+                <td>79 سم</td>
+                <td>62 سم</td>
+                <td>90 - 105 كجم</td>
+              </tr>
+              <tr>
+                <td><strong>XXL</strong></td>
+                <td>70 سم</td>
+                <td>82 سم</td>
+                <td>64 سم</td>
+                <td>105 - 120 كجم</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="size-hint"><i class="fa-solid fa-circle-info"></i> جميع تصاميمنا مصممة بأسلوب <strong>Boxy / Oversized</strong>. إذا كنت تفضل مظهراً ضيقاً (Slim Fit)، اختر مقاساً أقل بدرجة واحدة.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- STORE OWNER ORDER INSPECTION MODAL (تفاصيل الطلب بالكامل للتاجر) -->
+  <div class="modal-backdrop" id="ownerOrderModalBackdrop">
+    <div class="modal-dialog owner-detail-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="badge-merchant">تفاصيل الطلب لمندوب الشحن والإدارة</span>
+          <h3 id="ownerModalOrderTitle">طلب #HY-24891</h3>
+        </div>
+        <button class="icon-btn" onclick="app.closeOwnerOrderModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body" id="ownerModalBody">
+        <!-- Rendered dynamically via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- PRINTABLE SHIPPING WAYBILL / BOLICA (بوليصة شحن للمندوب) -->
+  <div class="waybill-print-container" id="printableWaybill">
+    <!-- Populated when owner clicks "طباعة بوليصة الشحن" -->
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-col brand-col">
+        <div class="brand-text">
+          <span class="brand-title">حَيّ</span>
+          <span class="brand-sub">HAYY STUDIO • CAIRO</span>
+        </div>
+        <p class="footer-bio">
+          براند أزياء شارع مصرية معاصرة، نصنع كل قطعة بشغف وتفانٍ في ورشنا بالقاهرة الكبرى، بخامات قطن مصري 100% تدوم لسنوات.
+        </p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col links-col">
+        <h4>روابط سريعة</h4>
+        <ul>
+          <li><a href="#collections" onclick="app.filterCategory('all')">أحدث المنتجات</a></li>
+          <li><a href="#" onclick="app.openSizeGuideModal()">دليل المقاسات الذكي</a></li>
+          <li><a href="#" onclick="app.toggleOwnerMode()">لوحة تحكم المتجر (للتاجر)</a></li>
+          <li><a href="#aboutSection">عن القطن المصري وخامتنا</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col payment-col">
+        <h4>طرق الدفع المعتمدة</h4>
+        <div class="payment-badges-row">
+          <span class="pay-chip"><i class="fa-solid fa-hand-holding-dollar"></i> كاش عند الاستلام</span>
+          <span class="pay-chip"><i class="fa-solid fa-mobile-screen-button"></i> فودافون كاش</span>
+          <span class="pay-chip"><i class="fa-solid fa-bolt"></i> إنستاباي InstaPay</span>
+        </div>
+        <p class="footer-support">
+          خدمة العملاء والواتساب: <strong>010 2345 6789</strong><br>
+          متاح يومياً من 10 صباحاً حتى 11 مساءً
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>© 2026 حَيّ ستوديو | جميع الحقوق محفوظة لعلامة HAYY Studio مصر.</p>
+        <p class="designed-with">صُنع بحب في القاهرة 🇪🇬</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Notification Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Firebase Cloud Firestore Integration Service -->
+  <script type="module" src="firebase-service.js"></script>
+
+  <!-- Main JavaScript Application Engine -->
+  <script src="app.js"></script>
+</body>
+</html>
